@@ -5,8 +5,6 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "~/components/ui/input-otp";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import { Fragment } from "react";
 
 export default async function HomePage() {
   const data: LyricsData = await getLyrics();
