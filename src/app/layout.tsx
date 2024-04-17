@@ -20,7 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>{children}</body>
+      <body className={`font-sans ${inter.variable} dark`}>
+        <div className="grid h-screen grid-rows-[auto,1fr]">
+          <main className="overflow-y-auto">{children}</main>
+        </div>
+      </body>
     </html>
   );
 }
