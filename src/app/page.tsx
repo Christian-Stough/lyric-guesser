@@ -6,6 +6,8 @@ import {
   InputOTPSlot,
 } from "~/components/ui/input-otp";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const data: LyricsData = await getLyrics();
 
