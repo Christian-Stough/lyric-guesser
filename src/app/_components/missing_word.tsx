@@ -21,7 +21,7 @@ export default function MissingWord({
         return (
           <Input
             className="w-8 overflow-visible px-0 text-center"
-            key={`${word}-${letter}`}
+            key={`${word}-${letter}-${index}`}
             maxLength={1}
             onChange={(e) => {
               handleChange(e.target.value, index);

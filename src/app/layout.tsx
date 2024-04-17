@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
+import { Toaster } from "~/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,6 +25,7 @@ export default function RootLayout({
         <div className="grid h-screen grid-rows-[auto,1fr]">
           <div className="h-20 w-full border-b"></div>
           <main className="h-full overflow-y-auto p-4">{children}</main>
+          <Toaster />
         </div>
       </body>
     </html>

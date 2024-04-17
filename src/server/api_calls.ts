@@ -1,4 +1,4 @@
-import "server-only";
+"use server";
 
 export const getLyrics = async (): Promise<LyricsData> => {
   const res = await fetch("https://api.lyrics.ovh/v1/Taylor Swift/Bad Blood");
