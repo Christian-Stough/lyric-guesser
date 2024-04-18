@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "~/components/ui/sonner";
 import StoreProvider from "./StoreProvider";
+import TopNav from "./_components/TopNav";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,7 +26,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable} dark`}>
         <StoreProvider>
           <div className="grid h-screen grid-rows-[auto,1fr]">
-            <div className="h-20 w-full border-b"></div>
+            <TopNav />
             <main className="h-full overflow-y-auto p-4">{children}</main>
             <Toaster />
           </div>

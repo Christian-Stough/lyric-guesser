@@ -3,6 +3,7 @@ import { removeStuff } from "~/lib/utils";
 
 // Define a type for the slice state
 export interface LyricState {
+  isLoading: boolean;
   lyrics: string;
   lineBefore: string;
   randomLine: string;
@@ -15,6 +16,7 @@ const initialState: LyricState = {
   lineBefore: "",
   randomLine: "",
   lineAfter: "",
+  isLoading: true,
 };
 
 export const lyricSlice = createSlice({
@@ -38,9 +40,15 @@ export const lyricSlice = createSlice({
       state.randomLine = newLine;
       state.lineAfter = splitLyrics[randomIndex + 1] ?? "Ope";
     },
+    loading: (state) => {
+      state.isLoading = true;
+    },
+    loaded: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
-export const { updateLyrics } = lyricSlice.actions;
+export const { updateLyrics, loading, loaded } = lyricSlice.actions;
 
 export default lyricSlice.reducer;

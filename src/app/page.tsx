@@ -5,13 +5,21 @@ import { getLyrics } from "~/server/api_calls";
 import MissingWord from "./_components/missing_word";
 import { Button } from "~/components/ui/button";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
-import { updateLyrics } from "~/lib/features/lyric/lyricSlice";
+import { loaded, loading, updateLyrics } from "~/lib/features/lyric/lyricSlice";
+import {
+  decreaseTimer,
+  gainScore,
+  lostLife,
+  resetTimer,
+} from "~/lib/features/logic/logicSlice";
+import Loading from "~/components/common/Loading";
 
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   const [valueArray, setValueArray] = useState<string[]>([]);
-  const [invalidIndexes, setInvalidIndexes] = useState<number[]>([]);
+
+  const { isLoading } = useAppSelector((state) => state.lyric);
 
   const {
     lineBefore,
@@ -27,13 +35,29 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
+    dispatch(resetTimer());
+
+    const timer = setInterval(() => {
+      dispatch(decreaseTimer());
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [randomLine]);
+
+  useEffect(() => {
     setValueArray(new Array(randomLine?.split(" ").length).fill(""));
   }, [randomLine]);
 
   const getNewLyric = async () => {
+    dispatch(loading());
+
     const data = await getLyrics();
 
     dispatch(updateLyrics(data.lyrics));
+
+    dispatch(loaded());
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,23 +65,23 @@ export default function HomePage() {
 
     if (!randomLine) return;
 
-    const cleanLineArray: string[] = randomLine
-      ?.replace(/[\[\](),.!?']/g, "")
-      .toLowerCase()
-      .split(" ");
+    const cleanLine = randomLine?.replace(/[\[\](),.!?']/g, "").toLowerCase();
 
-    const newInvalidIndexes = cleanLineArray.reduce(
-      (acc: number[], word, index) => {
-        if (word !== (valueArray[index]?.toLowerCase() ?? "")) {
-          acc.push(index);
-        }
-        return acc;
-      },
-      [],
-    );
+    const doTheyMatch: boolean =
+      cleanLine === valueArray.join(" ").toLowerCase();
 
-    setInvalidIndexes(newInvalidIndexes);
+    //setInvalidIndexes(newInvalidIndexes);
+
+    if (doTheyMatch) {
+      dispatch(gainScore(1));
+    } else {
+      dispatch(lostLife());
+    }
+
+    void getNewLyric();
   };
+
+  if (isLoading) return <Loading />;
 
   return (
     <form
@@ -69,7 +93,7 @@ export default function HomePage() {
         {randomLine?.split(" ").map((word, index) => (
           <MissingWord
             key={`${word}-${index}`}
-            invalid={invalidIndexes.includes(index)}
+            invalid={false}
             word={word}
             handleChange={(value: string, letterIndex: number) => {
               const newValueArray = [...valueArray];
