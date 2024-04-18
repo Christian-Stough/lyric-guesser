@@ -4,47 +4,59 @@ import { useEffect, useState } from "react";
 import { getLyrics } from "~/server/api_calls";
 import MissingWord from "./_components/missing_word";
 import { Button } from "~/components/ui/button";
+import { useAppDispatch, useAppSelector } from "~/lib/hooks";
+import { updateLyrics } from "~/lib/features/lyric/lyricSlice";
 
 export const dynamic = "force-dynamic";
 
 export default function HomePage() {
-  const [lyrics, setLyrics] = useState<string>();
-  const [lineBefore, setLineBefore] = useState<string>();
-  const [lineAfter, setLineAfter] = useState<string>();
-  const [randomLine, setRandomLine] = useState<string>();
   const [valueArray, setValueArray] = useState<string[]>([]);
+  const [invalidIndexes, setInvalidIndexes] = useState<number[]>([]);
+
+  const {
+    lineBefore,
+    randomLine,
+    lineAfter,
+  }: { lineBefore: string; randomLine: string; lineAfter: string } =
+    useAppSelector((state) => state.lyric);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void updateLyrics();
+    void getNewLyric();
   }, []);
 
-  const updateLyrics = async () => {
+  useEffect(() => {
+    setValueArray(new Array(randomLine?.split(" ").length).fill(""));
+  }, [randomLine]);
+
+  const getNewLyric = async () => {
     const data = await getLyrics();
 
-    const splitLyrics: string[] = data.lyrics
-      .split("\n")
-      .filter((line) => line);
-    const randomIndex: number = Math.floor(Math.random() * splitLyrics.length);
-
-    const newLine = removeStuff(splitLyrics[randomIndex]) ?? "Ope";
-
-    setLineBefore(splitLyrics[randomIndex - 1] ?? "Ope");
-    setRandomLine(newLine);
-    setLineAfter(splitLyrics[randomIndex + 1] ?? "Ope");
-    setLyrics(data.lyrics);
-
-    setValueArray(new Array(newLine?.split(" ").length).fill(""));
+    dispatch(updateLyrics(data.lyrics));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const cleanLine = randomLine?.replace(/[\[\](),.!?']/g, "").toLowerCase();
-    const submittedLine = valueArray.join(" ").toLowerCase();
+    if (!randomLine) return;
 
-    console.log(cleanLine);
-    console.log(submittedLine);
-    console.log(cleanLine === submittedLine);
+    const cleanLineArray: string[] = randomLine
+      ?.replace(/[\[\](),.!?']/g, "")
+      .toLowerCase()
+      .split(" ");
+
+    const newInvalidIndexes = cleanLineArray.reduce(
+      (acc: number[], word, index) => {
+        if (word !== (valueArray[index]?.toLowerCase() ?? "")) {
+          acc.push(index);
+        }
+        return acc;
+      },
+      [],
+    );
+
+    setInvalidIndexes(newInvalidIndexes);
   };
 
   return (
@@ -57,6 +69,7 @@ export default function HomePage() {
         {randomLine?.split(" ").map((word, index) => (
           <MissingWord
             key={`${word}-${index}`}
+            invalid={invalidIndexes.includes(index)}
             word={word}
             handleChange={(value: string, letterIndex: number) => {
               const newValueArray = [...valueArray];
@@ -86,7 +99,7 @@ export default function HomePage() {
   );
 }
 
-const removeStuff = (str: string | undefined): string => {
+export const removeStuff = (str: string | undefined): string => {
   if (!str) return "Ope";
   return str.replace(/[\[\](),.!?]/g, "");
 };

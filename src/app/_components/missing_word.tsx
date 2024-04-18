@@ -3,9 +3,11 @@ import { Input } from "~/components/ui/input";
 export default function MissingWord({
   word,
   handleChange,
+  invalid,
 }: {
   word: string;
   handleChange: (value: string, letterIndex: number) => void;
+  invalid: boolean;
 }) {
   const splitWord = word.split("");
 
@@ -20,7 +22,7 @@ export default function MissingWord({
           );
         return (
           <Input
-            className="w-8 overflow-visible px-0 text-center"
+            className={`w-8 overflow-visible px-0 text-center ${invalid && "border-red-500"}`}
             key={`${word}-${letter}-${index}`}
             maxLength={1}
             onChange={(e) => {
