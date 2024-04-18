@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { removeStuff } from "~/app/page";
+import { removeStuff } from "~/lib/utils";
 
 // Define a type for the slice state
 export interface LyricState {

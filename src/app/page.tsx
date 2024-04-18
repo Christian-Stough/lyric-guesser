@@ -98,8 +98,3 @@ export default function HomePage() {
     </form>
   );
 }
-
-export const removeStuff = (str: string | undefined): string => {
-  if (!str) return "Ope";
-  return str.replace(/[\[\](),.!?]/g, "");
-};
