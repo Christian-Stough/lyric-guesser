@@ -13,7 +13,7 @@ export default function ArtistPage() {
         <Button
           key={artist.id}
           size="icon"
-          className={`group  relative size-48 bg-transparent text-xl text-white hover:bg-transparent `}
+          className={`group relative size-48 bg-transparent text-xl text-white hover:bg-transparent `}
           onClick={() => router.push(`/play/${artist.name}`)}
         >
           <Image

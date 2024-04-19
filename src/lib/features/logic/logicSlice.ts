@@ -9,6 +9,8 @@ export interface LogicState {
   score: number;
   timer: number;
   scoring: boolean;
+  endGame: boolean;
+  formLoading: boolean;
 }
 
 // Define the initial state using that type
@@ -17,6 +19,8 @@ const initialState: LogicState = {
   score: 0,
   timer: INITALTIMER,
   scoring: false,
+  endGame: false,
+  formLoading: false,
 };
 
 export const logicSlice = createSlice({
@@ -45,6 +49,21 @@ export const logicSlice = createSlice({
     setScoring: (state, action: PayloadAction<boolean>) => {
       state.scoring = action.payload;
     },
+    setEndGame: (state, action: PayloadAction<boolean>) => {
+      state.endGame = action.payload;
+    },
+    setFormLoading: (state, action: PayloadAction<boolean>) => {
+      state.formLoading = action.payload;
+    },
+    reset: (state) => {
+      state.scoring = false;
+
+      state.endGame = false;
+      state.formLoading = false;
+      state.timer = INITALTIMER;
+      state.life = INITALLIFES;
+      state.score = 0;
+    },
   },
 });
 
@@ -56,6 +75,9 @@ export const {
   resetLife,
   resetScore,
   setScoring,
+  setEndGame,
+  setFormLoading,
+  reset,
 } = logicSlice.actions;
 
 export default logicSlice.reducer;

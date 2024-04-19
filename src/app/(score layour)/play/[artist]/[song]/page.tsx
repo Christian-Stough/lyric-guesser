@@ -1,5 +1,6 @@
 import { getLyrics } from "~/server/api_calls";
-import PlayClient from "./client";
+
+import ArtistSongClient from "./client";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,7 @@ export default async function PlayPage({
   const lyricsObj = await getLyrics(params.artist, params.song);
 
   return (
-    <PlayClient
+    <ArtistSongClient
       artist={params.artist}
       song={params.song}
       initalLyrics={lyricsObj.lyrics}

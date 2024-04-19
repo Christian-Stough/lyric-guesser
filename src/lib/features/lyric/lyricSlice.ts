@@ -4,6 +4,8 @@ import { removeStuff } from "~/lib/utils";
 // Define a type for the slice state
 export interface LyricState {
   isLoading: boolean;
+  artist: string;
+  song: string;
   lyrics: string;
   lineBefore: string;
   randomLine: string;
@@ -12,6 +14,8 @@ export interface LyricState {
 
 // Define the initial state using that type
 const initialState: LyricState = {
+  artist: "",
+  song: "",
   lyrics: "",
   lineBefore: "",
   randomLine: "",
@@ -74,9 +78,16 @@ export const lyricSlice = createSlice({
     loaded: (state) => {
       state.isLoading = false;
     },
+    setArtist: (state, action: PayloadAction<string>) => {
+      state.artist = action.payload;
+    },
+    setSong: (state, action: PayloadAction<string>) => {
+      state.song = action.payload;
+    },
   },
 });
 
-export const { updateLyrics, loading, loaded } = lyricSlice.actions;
+export const { updateLyrics, loading, loaded, setArtist, setSong } =
+  lyricSlice.actions;
 
 export default lyricSlice.reducer;

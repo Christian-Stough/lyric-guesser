@@ -47,9 +47,28 @@ export const artists: Artist[] = [
       "John",
     ],
   },
+  {
+    name: "Falling In Reverse",
+    id: 3,
+    image: "https://i.scdn.co/image/ab6761610000e5eb9c2da8f3600db8c68d1979ba",
+    songs: [
+      "Popular Monster",
+      "The Drug In Me Is You",
+      "Losing My Life",
+      "Carry On",
+      "Broken",
+      "Just Like You",
+      "Fashionably Late",
+      "I'm Not a Vampire",
+      "Alone",
+      "Good Girls Bad Guys",
+      "Raised by Wolves",
+      "The Westerner",
+    ],
+  },
 ];
 
-interface Artist {
+export interface Artist {
   name: string;
   id: number;
   image: string;

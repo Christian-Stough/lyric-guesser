@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader } from "~/components/ui/card";
@@ -24,23 +23,23 @@ export default function EndGame({
   valueArray: string[];
   reset: () => void;
 }) {
-  let { artist, song }: { artist: string; song: string } = useParams();
+  const router = useRouter();
 
   const { score } = useAppSelector((state) => state.logic);
 
-  const { lineBefore, lineAfter, randomLine } = useAppSelector(
+  const { lineBefore, lineAfter, randomLine, artist, song } = useAppSelector(
     (state) => state.lyric,
   );
 
-  artist = artist.replaceAll("%20", " ");
-  song = song.replaceAll("%20", " ");
+  const cleanArtist = artist.replaceAll("%20", " ");
+  const cleanSong = song.replaceAll("%20", " ");
 
   return (
     <Dialog open={open}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{song}</DialogTitle>
-          <DialogDescription>{artist}</DialogDescription>
+          <DialogTitle>{cleanSong}</DialogTitle>
+          <DialogDescription>{cleanArtist}</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center gap-4">
           <div className="w-full text-center text-3xl font-semibold">
@@ -70,8 +69,15 @@ export default function EndGame({
             Play Again
           </Button>
 
-          <Button className="w-1/2" variant="secondary">
-            <Link href="/">Go Home</Link>
+          <Button
+            className="w-1/2"
+            variant="secondary"
+            onClick={() => {
+              reset();
+              router.push("/");
+            }}
+          >
+            Go Home
           </Button>
         </DialogFooter>
       </DialogContent>
