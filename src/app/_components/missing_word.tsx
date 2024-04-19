@@ -16,10 +16,22 @@ export default function MissingWord({
   return (
     <div className="flex gap-2" key={word}>
       {splitWord.map((letter, index) => {
-        if (letter === "'" || letter === "" || letter === "\x92")
+        if (letter === "'")
           return (
             <div className="-translate-y-4" key={`${word}-${letter}`}>
               &apos;
+            </div>
+          );
+        else if (letter === '"')
+          return (
+            <div className="-translate-y-4" key={`${word}-${letter}`}>
+              &quot;
+            </div>
+          );
+        else if (letter === "—")
+          return (
+            <div className="-translate-y-4" key={`${word}-${letter}`}>
+              &mdash;
             </div>
           );
         return (
