@@ -95,6 +95,7 @@ export const artists: Artist[] = [
       "happier",
       "jealousy, jealousy",
       "favorite crime",
+      "1 step forward, 3 steps back",
     ],
   },
 ];

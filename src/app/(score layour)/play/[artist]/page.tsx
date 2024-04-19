@@ -1,7 +1,8 @@
 import { getLyrics } from "~/server/api_calls";
 
 import ArtistClient from "./client";
-import { type Artist, artists } from "~/lib/artists";
+import { type Artist } from "~/lib/artists";
+import { getArtists } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +15,16 @@ export default async function PlayPage({
     return <div>Artist not found</div>;
   }
 
-  const artistObj: Artist | undefined = artists.filter(
+  const artists = await getArtists().then((res) =>
+    res.sort((a, b) => a.id - b.id),
+  );
+
+  const formattedArtists: Artist[] = artists.map((artist) => ({
+    ...artist,
+    songs: artist.songs.split(","), // Convert songs to an array
+  }));
+
+  const artistObj: Artist | undefined = formattedArtists.filter(
     (artist) => artist.name === params.artist.replace(/%20/g, " "),
   )[0];
 
