@@ -26,7 +26,7 @@ export default function ArtistSelectionClient({
             alt={artist.name}
             className="absolute left-0 top-0 z-0 opacity-40 transition-opacity duration-300 ease-in-out group-hover:opacity-80"
           />
-          <span className=" group-hover:text-white/ z-10 flex h-fit w-full flex-wrap items-center justify-center text-wrap transition-all duration-300 ease-in-out ">
+          <span className=" z-10 flex h-fit w-full flex-wrap items-center justify-center text-wrap transition-all duration-300 ease-in-out group-hover:text-white/10 ">
             {artist.name}
           </span>
         </Button>

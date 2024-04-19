@@ -7,7 +7,10 @@ TODO:
 - [x] End Game Screen
 - [x] Start Screen
 - [ ] Randomly show letters as the time gets lower
+- [ ] Mobile Support
 - [ ] Make it so they can click on specific letters and change them
 - [ ] Timer Sound Effects
 - [x] Remove The French Lyric starting part
 - [ ] Remove any part that is like [Artist Singing]
+- [x] Add Database
+- [x] Add Artist Mode
