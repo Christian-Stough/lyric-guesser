@@ -63,6 +63,19 @@ export const artists: Artist[] = [
       "The Westerner",
     ],
   },
+  {
+    name: "The Birthday Massacre",
+    id: 4,
+    image: "https://i.scdn.co/image/ab67616100005174916d2275e3b91d069e6e7683",
+    songs: [
+      "Red Stars",
+      "Looking Glass",
+      "In The Dark",
+      "Blue",
+      "To Die For",
+      "Kill The Lights",
+    ],
+  },
 ];
 
 export interface Artist {
