@@ -4,17 +4,19 @@ export default function MissingWord({
   word,
   handleChange,
   invalid,
+  disabled,
 }: {
   word: string;
   handleChange: (value: string, letterIndex: number) => void;
   invalid: boolean;
+  disabled: boolean;
 }) {
   const splitWord = word.split("");
 
   return (
     <div className="flex gap-2" key={word}>
       {splitWord.map((letter, index) => {
-        if (letter === "'")
+        if (letter === "'" || letter === "" || letter === "\x92")
           return (
             <div className="-translate-y-4" key={`${word}-${letter}`}>
               &apos;
@@ -25,6 +27,7 @@ export default function MissingWord({
             className={`w-8 overflow-visible px-0 text-center ${invalid && "border-red-500"}`}
             key={`${word}-${letter}-${index}`}
             maxLength={1}
+            disabled={disabled}
             onChange={(e) => {
               handleChange(e.target.value, index);
 

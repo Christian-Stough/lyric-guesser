@@ -1,10 +1,15 @@
 "use server";
 
-export const getLyrics = async (): Promise<LyricsData> => {
-  const res = await fetch("https://api.lyrics.ovh/v1/Taylor Swift/Bad Blood");
+export const getLyrics = async (artist: string): Promise<LyricsData> => {
+  artist = artist.replace("%20", " ");
+
+  //const res = await fetch(`https://api.lyrics.ovh/v1/${artist}/Bad Blood`);
+  const res = await fetch(`https://api.lyrics.ovh/v1/Lil Wayne/Drop The World`);
   const data: LyricsData = (await res.json()) as LyricsData;
 
-  //console.log(data);
+  data.lyrics = data.lyrics.replaceAll("\x92", "'");
+
+  console.log(data);
   return data;
 };
 

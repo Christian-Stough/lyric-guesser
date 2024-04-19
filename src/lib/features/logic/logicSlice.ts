@@ -1,17 +1,22 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+const INITALLIFES = 3;
+const INITALTIMER = 10;
+
 // Define a type for the slice state
 export interface LogicState {
   life: number;
   score: number;
   timer: number;
+  scoring: boolean;
 }
 
 // Define the initial state using that type
 const initialState: LogicState = {
-  life: 3,
+  life: INITALLIFES,
   score: 0,
-  timer: 10,
+  timer: INITALTIMER,
+  scoring: false,
 };
 
 export const logicSlice = createSlice({
@@ -25,16 +30,32 @@ export const logicSlice = createSlice({
     gainScore: (state, action: PayloadAction<number>) => {
       state.score += action.payload;
     },
+    resetScore: (state) => {
+      state.score = 0;
+    },
+    resetLife: (state) => {
+      state.life = INITALLIFES;
+    },
     decreaseTimer: (state) => {
       state.timer -= 1;
     },
     resetTimer: (state) => {
-      state.timer = 10;
+      state.timer = INITALTIMER;
+    },
+    setScoring: (state, action: PayloadAction<boolean>) => {
+      state.scoring = action.payload;
     },
   },
 });
 
-export const { lostLife, gainScore, decreaseTimer, resetTimer } =
-  logicSlice.actions;
+export const {
+  lostLife,
+  gainScore,
+  decreaseTimer,
+  resetTimer,
+  resetLife,
+  resetScore,
+  setScoring,
+} = logicSlice.actions;
 
 export default logicSlice.reducer;
