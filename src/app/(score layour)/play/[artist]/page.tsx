@@ -5,7 +5,6 @@ import { type Artist } from "~/lib/artists";
 import { getArtists } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
-export const revalidate = "no-store";
 
 export default async function PlayPage({
   params,

@@ -2,6 +2,9 @@ import { getArtists } from "~/server/queries";
 import ArtistSelectionClient from "./client";
 import type { Artist } from "~/lib/artists";
 
+export const dynamic = "force-dynamic";
+e;
+
 export default async function ArtistPage() {
   const artists = await getArtists().then((res) =>
     res.sort((a, b) => a.id - b.id),
