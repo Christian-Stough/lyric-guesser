@@ -81,6 +81,22 @@ export const artists: Artist[] = [
     image: "https://i.scdn.co/image/ab6761610000e5ebfd1780645d82ecbc3b5253cb",
     songs: ["Freaky Friday", "Earth", "Professional Rapper", "Pillow Talking"],
   },
+  {
+    name: "Olivia Rodrigo",
+    id: 6,
+    image: "https://i.scdn.co/image/ab6761610000e5ebe03a98785f3658f0b6461ec4",
+    songs: [
+      "good 4 u",
+      "drivers license",
+      "deja vu",
+      "traitor",
+      "brutal",
+      "enough for you",
+      "happier",
+      "jealousy, jealousy",
+      "favorite crime",
+    ],
+  },
 ];
 
 export interface Artist {
