@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 const INITALLIFES = 3;
-const INITALTIMER = 10;
+const INITALTIMER = 60;
 
 // Define a type for the slice state
 export interface LogicState {
