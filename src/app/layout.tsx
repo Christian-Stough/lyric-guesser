@@ -3,7 +3,6 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Toaster } from "~/components/ui/sonner";
 import StoreProvider from "./StoreProvider";
-import TopNav from "./_components/TopNav";
 
 const inter = Inter({
   subsets: ["latin"],

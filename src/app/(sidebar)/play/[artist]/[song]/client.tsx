@@ -1,8 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useEffect, useState } from "react";
 import { getLyrics } from "~/server/api_calls";
-import MissingWord from "../../../_components/missing_word";
+import MissingWord from "../../../../_components/missing_word";
 import { Button } from "~/components/ui/button";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 import { loaded, loading, updateLyrics } from "~/lib/features/lyric/lyricSlice";
@@ -21,9 +22,11 @@ export const dynamic = "force-dynamic";
 
 export default function PlayClient({
   artist,
+  song,
   initalLyrics,
 }: {
   artist: string;
+  song: string;
   initalLyrics: string;
 }) {
   const [valueArray, setValueArray] = useState<string[]>([]);
@@ -90,7 +93,7 @@ export default function PlayClient({
     setValueArray([]);
     setInvalidIndexes([]);
 
-    const data = await getLyrics(artist);
+    const data = await getLyrics(artist, song);
 
     dispatch(updateLyrics(data.lyrics));
 
