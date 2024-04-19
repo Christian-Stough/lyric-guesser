@@ -9,5 +9,5 @@ TODO:
 - [ ] Randomly show letters as the time gets lower
 - [ ] Make it so they can click on specific letters and change them
 - [ ] Timer Sound Effects
-- [ ] Remove The French Lyric starting part
+- [x] Remove The French Lyric starting part
 - [ ] Remove any part that is like [Artist Singing]

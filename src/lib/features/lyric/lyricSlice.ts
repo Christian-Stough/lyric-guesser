@@ -30,11 +30,33 @@ export const lyricSlice = createSlice({
       const splitLyrics: string[] = action.payload
         .split("\n")
         .filter((line) => line);
-      const randomIndex: number = Math.floor(
-        Math.random() * splitLyrics.length,
-      );
 
-      const newLine = removeStuff(splitLyrics[randomIndex]) ?? "Ope";
+      let newLine: string | undefined;
+      let randomIndex = 0;
+
+      while (!newLine) {
+        const potentialRandomIndex: number = Math.floor(
+          Math.random() * splitLyrics.length,
+        );
+
+        const potentialNewLine =
+          removeStuff(splitLyrics[potentialRandomIndex]) ?? "Ope";
+        const potentialLineBefore =
+          splitLyrics[potentialRandomIndex - 1] ?? "Ope";
+        const potentialLineAfter =
+          splitLyrics[potentialRandomIndex + 1] ?? "Ope";
+
+        if (
+          potentialNewLine.includes("Paroles de la chanson") ||
+          potentialLineBefore.includes("Paroles de la chanson") ||
+          potentialLineAfter.includes("Paroles de la chanson")
+        ) {
+          continue;
+        } else {
+          newLine = potentialNewLine;
+          randomIndex = potentialRandomIndex;
+        }
+      }
 
       state.lineBefore = splitLyrics[randomIndex - 1] ?? "Ope";
       state.randomLine = newLine;
