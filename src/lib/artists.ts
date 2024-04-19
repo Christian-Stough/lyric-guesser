@@ -5,7 +5,6 @@ export const artists: Artist[] = [
     image: "https://i.scdn.co/image/ab6761610000e5ebe672b5f553298dcdccb0e676",
     songs: [
       "Bad Blood",
-      "Blank Space",
       "Love Story",
       "Shake It Off",
       "You Belong With Me",
@@ -75,6 +74,12 @@ export const artists: Artist[] = [
       "To Die For",
       "Kill The Lights",
     ],
+  },
+  {
+    name: "Lil Dicky",
+    id: 5,
+    image: "https://i.scdn.co/image/ab6761610000e5ebfd1780645d82ecbc3b5253cb",
+    songs: ["Freaky Friday", "Earth", "Professional Rapper", "Pillow Talking"],
   },
 ];
 

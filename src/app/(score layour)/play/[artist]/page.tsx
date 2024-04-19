@@ -24,10 +24,16 @@ export default async function PlayPage({
 
   const songs = artistObj.songs;
 
-  const lyricsObj = await getLyrics(artistObj?.name, artistObj?.songs[0] ?? "");
+  const randomIndex = 0;
+
+  const lyricsObj = await getLyrics(
+    artistObj?.name,
+    artistObj?.songs[randomIndex] ?? "",
+  );
 
   return (
     <ArtistClient
+      serverIndex={randomIndex}
       songs={songs}
       artist={params.artist}
       initalLyrics={lyricsObj.lyrics}

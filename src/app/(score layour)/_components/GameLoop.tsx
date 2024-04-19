@@ -31,11 +31,13 @@ export default function GameLoop({
   artist: serverArtist,
   song: serverSong,
   songs,
+  serverIndex,
   initalLyrics,
 }: {
   artist: string;
   song?: string;
   songs?: string[];
+  serverIndex?: number;
   initalLyrics: string;
 }) {
   //Values from Redux
@@ -146,7 +148,7 @@ export default function GameLoop({
     dispatch(loading());
 
     if (serverSong) dispatch(setSong(serverSong));
-    if (songs) dispatch(setSong(songs[0] ?? ""));
+    if (songs) dispatch(setSong(songs[serverIndex ?? 0] ?? ""));
 
     dispatch(resetLogic());
     setValueArray([]);

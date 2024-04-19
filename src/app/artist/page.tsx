@@ -22,7 +22,7 @@ export default function ArtistPage() {
             alt={artist.name}
             className="absolute left-0 top-0 z-0 opacity-40 transition-opacity duration-300 ease-in-out group-hover:opacity-80"
           />
-          <span className="ease-in-ou z-10 transition-all duration-300 group-hover:text-white/10">
+          <span className=" group-hover:text-white/ z-10 flex h-fit w-full flex-wrap items-center justify-center text-wrap transition-all duration-300 ease-in-out ">
             {artist.name}
           </span>
         </Button>
