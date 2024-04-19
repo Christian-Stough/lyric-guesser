@@ -1,5 +1,5 @@
 import React from "react";
-import TopNav from "../_components/TopNav";
+import TopNav from "./_components/TopNav";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   return (

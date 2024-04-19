@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getLyrics } from "~/server/api_calls";
-import MissingWord from "../../../../_components/missing_word";
+import MissingWord from "../../../_components/missing_word";
 import { Button } from "~/components/ui/button";
 import { useAppDispatch, useAppSelector } from "~/lib/hooks";
 import { loaded, loading, updateLyrics } from "~/lib/features/lyric/lyricSlice";
@@ -17,6 +17,8 @@ import {
   setScoring,
 } from "~/lib/features/logic/logicSlice";
 import Loading from "~/components/common/Loading";
+import type { AppDispatch } from "~/lib/store";
+import EndGame from "~/app/(sidebar)/_components/EndGame";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +31,7 @@ export default function PlayClient({
   song: string;
   initalLyrics: string;
 }) {
-  const [valueArray, setValueArray] = useState<string[]>([]);
-
+  //Values from Redux
   const {
     isLoading,
     lineBefore,
@@ -43,21 +44,25 @@ export default function PlayClient({
     lineAfter: string;
   } = useAppSelector((state) => state.lyric);
 
-  const { timer, scoring }: { timer: number; scoring: boolean } =
-    useAppSelector((state) => state.logic);
+  const {
+    timer,
+    scoring,
+    life,
+  }: { timer: number; scoring: boolean; life: number } = useAppSelector(
+    (state) => state.logic,
+  );
 
+  //State Values
+  const [valueArray, setValueArray] = useState<string[]>([]);
   const [invalidIndexes, setInvalidIndexes] = useState<number[]>([]);
+  const [endGame, setEndGame] = useState<boolean>(false);
+
+  const clock = useRef<NodeJS.Timeout>();
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(setScoring(false));
-    dispatch(loading());
-    dispatch(updateLyrics(initalLyrics));
-    dispatch(resetTimer());
-    dispatch(resetLife());
-    dispatch(resetScore());
-    dispatch(loaded());
+    reset();
   }, []);
 
   useEffect(() => {
@@ -74,12 +79,10 @@ export default function PlayClient({
   useEffect(() => {
     dispatch(resetTimer());
 
-    const clock = setInterval(() => {
-      dispatch(decreaseTimer());
-    }, 1000);
+    clock.current = startTimer(dispatch);
 
     return () => {
-      clearInterval(clock);
+      if (clock.current) pauseTimer(clock.current);
     };
   }, [randomLine]);
 
@@ -100,10 +103,25 @@ export default function PlayClient({
     dispatch(loaded());
   };
 
+  const reset = () => {
+    dispatch(setScoring(false));
+    dispatch(loading());
+    setEndGame(false);
+    setValueArray([]);
+    setInvalidIndexes([]);
+    dispatch(updateLyrics(initalLyrics));
+    dispatch(resetTimer());
+    dispatch(resetLife());
+    dispatch(resetScore());
+    dispatch(loaded());
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(setScoring(true));
+
+    if (clock.current) pauseTimer(clock.current);
 
     if (!randomLine) return;
 
@@ -124,15 +142,24 @@ export default function PlayClient({
 
     setInvalidIndexes(invalidIndex);
 
+    let gameOver = false;
+
     if (invalidIndex.length === 0) {
       dispatch(gainScore(1));
     } else {
       dispatch(lostLife());
+
+      if (life === 1) {
+        gameOver = true;
+        setEndGame(true);
+      }
     }
 
-    setTimeout(() => {
-      void getNewLyric();
-    }, 2000);
+    if (!gameOver) {
+      setTimeout(() => {
+        void getNewLyric();
+      }, 2000);
+    }
   };
 
   if (isLoading) return <Loading />;
@@ -176,6 +203,20 @@ export default function PlayClient({
           {randomLine}
         </div>
       )}
+
+      <EndGame open={endGame} reset={reset} />
     </form>
   );
 }
+
+const startTimer = (dispatch: AppDispatch) => {
+  const interval = setInterval(() => {
+    dispatch(decreaseTimer());
+  }, 1000);
+
+  return interval;
+};
+
+const pauseTimer = (timer: NodeJS.Timeout) => {
+  clearInterval(timer);
+};

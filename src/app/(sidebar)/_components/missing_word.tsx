@@ -28,6 +28,18 @@ export default function MissingWord({
               &quot;
             </div>
           );
+        else if (letter === "“" || letter === "”")
+          return (
+            <div className="-translate-y-4" key={`${word}-${letter}`}>
+              &ldquo;
+            </div>
+          );
+        else if (letter === "‘" || letter === "’")
+          return (
+            <div className="-translate-y-4" key={`${word}-${letter}`}>
+              &lsquo;
+            </div>
+          );
         else if (letter === "—")
           return (
             <div className="-translate-y-4" key={`${word}-${letter}`}>

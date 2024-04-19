@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -32,11 +32,11 @@ export default function HomePage() {
         }}
       >
         <div className="flex w-[300px] flex-col gap-2">
-          <Label>Artist (fuck you austin)</Label>
+          <Label>Artist</Label>
           <Input onChange={(e) => setArtist(e.target.value)} />
         </div>
         <div className="flex w-[300px] flex-col gap-2">
-          <Label>Song (fuck you austin)</Label>
+          <Label>Song</Label>
           <Input onChange={(e) => setSong(e.target.value)} />
         </div>
 
