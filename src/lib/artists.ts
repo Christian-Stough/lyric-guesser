@@ -52,8 +52,8 @@ export const artists: Artist[] = [
     id: 3,
     image: "https://i.scdn.co/image/ab6761610000e5eb9c2da8f3600db8c68d1979ba",
     songs: [
-      "Popular Monster",
       "The Drug In Me Is You",
+      "Popular Monster",
       "Losing My Life",
       "Just Like You",
       "Fashionably Late",
