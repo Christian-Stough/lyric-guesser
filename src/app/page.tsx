@@ -11,37 +11,14 @@ import { getLyrics } from "~/server/api_calls";
 export default function HomePage() {
   const router = useRouter();
 
-  const [artist, setArtist] = useState<string>("");
-  const [song, setSong] = useState<string>("");
-
   return (
-    <main className="h-screen overflow-y-auto p-4">
-      <form
-        className="flex h-full  flex-col items-center justify-center gap-4"
-        onSubmit={async (e) => {
-          e.preventDefault();
-
-          const lyrics = await getLyrics(artist, song);
-
-          if (lyrics.hasOwnProperty("error")) {
-            toast.error("SONG DONT EXISTS NERD");
-            return;
-          }
-
-          router.push(`/play/${artist}/${song}`);
-        }}
-      >
-        <div className="flex w-[300px] flex-col gap-2">
-          <Label>Artist</Label>
-          <Input onChange={(e) => setArtist(e.target.value)} />
-        </div>
-        <div className="flex w-[300px] flex-col gap-2">
-          <Label>Song</Label>
-          <Input onChange={(e) => setSong(e.target.value)} />
-        </div>
-
-        <Button className="w-[300px]">Search</Button>
-      </form>
+    <main className="flex h-screen flex-col items-center justify-center gap-8 overflow-y-auto p-4">
+      <Button className="w-[300px]" onClick={() => router.push("/artist")}>
+        Artist Mode
+      </Button>
+      <Button className="w-[300px]" onClick={() => router.push("/freeplay")}>
+        Free Play
+      </Button>
     </main>
   );
 }

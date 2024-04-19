@@ -17,9 +17,11 @@ import { useAppSelector } from "~/lib/hooks";
 
 export default function EndGame({
   open,
+  valueArray,
   reset,
 }: {
   open: boolean;
+  valueArray: string[];
   reset: () => void;
 }) {
   let { artist, song }: { artist: string; song: string } = useParams();
@@ -54,7 +56,12 @@ export default function EndGame({
           </div>
           <div className="text-md flex flex-col items-center gap-2 text-slate-400">
             <div>{lineBefore}</div>
-            <div className="font-semi text-xl text-red-600">{randomLine}</div>
+            <div className="text-xl font-semibold text-slate-400 line-through decoration-1">
+              {valueArray.join(" ")}
+            </div>
+            <div className="text-xl font-semibold text-red-600">
+              {randomLine}
+            </div>
             <div>{lineAfter}</div>
           </div>
         </div>
@@ -64,7 +71,7 @@ export default function EndGame({
           </Button>
 
           <Button className="w-1/2" variant="secondary">
-            <Link href="/">New Song</Link>
+            <Link href="/">Go Home</Link>
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -18,5 +18,3 @@ export const getLyrics = async (
 export interface LyricsData {
   lyrics: string;
 }
-
-//Taylor Swift/Bad BloodTaylor Swift/Bad Blood

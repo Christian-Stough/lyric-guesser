@@ -46,11 +46,17 @@ export const lyricSlice = createSlice({
         const potentialLineAfter =
           splitLyrics[potentialRandomIndex + 1] ?? "Ope";
 
-        if (
+        const frenchCheck =
           potentialNewLine.includes("Paroles de la chanson") ||
           potentialLineBefore.includes("Paroles de la chanson") ||
-          potentialLineAfter.includes("Paroles de la chanson")
-        ) {
+          potentialLineAfter.includes("Paroles de la chanson");
+
+        const previousLyricCheck =
+          potentialNewLine === state.randomLine ||
+          potentialLineBefore === state.lineBefore ||
+          potentialLineAfter === state.lineAfter;
+
+        if (frenchCheck || previousLyricCheck) {
           continue;
         } else {
           newLine = potentialNewLine;
@@ -58,9 +64,9 @@ export const lyricSlice = createSlice({
         }
       }
 
-      state.lineBefore = splitLyrics[randomIndex - 1] ?? "Ope";
+      state.lineBefore = splitLyrics[randomIndex - 1] ?? "[Start of Song]";
       state.randomLine = newLine;
-      state.lineAfter = splitLyrics[randomIndex + 1] ?? "Ope";
+      state.lineAfter = splitLyrics[randomIndex + 1] ?? "[End of Song]";
     },
     loading: (state) => {
       state.isLoading = true;

@@ -56,6 +56,7 @@ export default function PlayClient({
   const [valueArray, setValueArray] = useState<string[]>([]);
   const [invalidIndexes, setInvalidIndexes] = useState<number[]>([]);
   const [endGame, setEndGame] = useState<boolean>(false);
+  const [formLoading, setFormLoading] = useState<boolean>(false);
 
   const clock = useRef<NodeJS.Timeout>();
 
@@ -70,13 +71,17 @@ export default function PlayClient({
       dispatch(setScoring(true));
       dispatch(lostLife());
 
-      setTimeout(() => {
-        void getNewLyric();
-      }, 2000);
+      if (life !== 1) {
+        setTimeout(() => {
+          void getNewLyric();
+        }, 2000);
+      }
     }
   }, [timer]);
 
   useEffect(() => {
+    setValueArray(new Array(randomLine?.split(" ").length).fill(""));
+
     dispatch(resetTimer());
 
     clock.current = startTimer(dispatch);
@@ -87,8 +92,11 @@ export default function PlayClient({
   }, [randomLine]);
 
   useEffect(() => {
-    setValueArray(new Array(randomLine?.split(" ").length).fill(""));
-  }, [randomLine]);
+    if (life <= 0) {
+      setEndGame(true);
+      if (clock.current) pauseTimer(clock.current);
+    }
+  }, [life]);
 
   const getNewLyric = async () => {
     dispatch(loading());
@@ -107,6 +115,7 @@ export default function PlayClient({
     dispatch(setScoring(false));
     dispatch(loading());
     setEndGame(false);
+    setFormLoading(false);
     setValueArray([]);
     setInvalidIndexes([]);
     dispatch(updateLyrics(initalLyrics));
@@ -118,6 +127,9 @@ export default function PlayClient({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (formLoading) return;
+
+    setFormLoading(true);
 
     dispatch(setScoring(true));
 
@@ -151,12 +163,12 @@ export default function PlayClient({
 
       if (life === 1) {
         gameOver = true;
-        setEndGame(true);
       }
     }
 
     if (!gameOver) {
       setTimeout(() => {
+        setFormLoading(false);
         void getNewLyric();
       }, 2000);
     }
@@ -193,18 +205,16 @@ export default function PlayClient({
       </div>
       <div>{lineAfter}</div>
       <Button type="submit" className="w-[250px]">
-        Submit
+        {formLoading ? <>Scoring...</> : "Submit"}
       </Button>
-      <div className=" absolute top-2 rounded-sm border bg-zinc-600 p-4">
-        {valueArray.join(" ")}
-      </div>
+
       {scoring && (
         <div className=" absolute bottom-2 rounded-sm border bg-zinc-600 p-4">
           {randomLine}
         </div>
       )}
 
-      <EndGame open={endGame} reset={reset} />
+      <EndGame valueArray={valueArray} open={endGame} reset={reset} />
     </form>
   );
 }
